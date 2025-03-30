@@ -1,10 +1,15 @@
 package com.schedule.schedule.repository;
 
+import com.schedule.schedule.entity.Schedule;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 /**
- * @packageName    : com.schedule.schedule.repository
- * @fileName       : ScheduleRepository
- * @author         : yong
- * @date           : 3/30/25
- * @description    :
- */public class ScheduleRepository {
+ * @author : yong
+ * @packageName : com.schedule.schedule.repository
+ * @fileName : ScheduleRepository
+ * @date : 3/30/25
+ * @description :
+ */
+public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
+
 }
