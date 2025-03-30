@@ -1,4 +1,4 @@
-main/resources/*
+main/resources/
 HELP.md
 .gradle
 build/
