@@ -40,7 +40,13 @@ public class ScheduleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> updateSchedule(@PathVariable long id, @RequestBody ScheduleRequestDto dto) {
+    public ResponseEntity<ScheduleResponseDto> update(@PathVariable long id, @RequestBody ScheduleRequestDto dto) {
         return ResponseEntity.status(HttpStatus.OK).body(service.updateById(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable long id) {
+        String response = service.deleteById(id) + " 스케쥴은 정상적으로 삭제되었습니다.";
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

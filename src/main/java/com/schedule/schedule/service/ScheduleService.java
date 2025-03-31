@@ -83,4 +83,11 @@ public class ScheduleService {
                 schedule.getUpdatedAt()
         );
     }
+
+    public String deleteById(long id) {
+        Schedule schedule = repository.findById(id).orElseThrow();
+        repository.deleteById(id);
+
+        return schedule.getTitle();
+    }
 }
