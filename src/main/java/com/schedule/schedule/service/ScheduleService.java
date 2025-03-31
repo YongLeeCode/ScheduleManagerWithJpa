@@ -25,16 +25,16 @@ public class ScheduleService {
 
     // 스케쥴 생성
     public ScheduleResponseDto createSchedule(ScheduleRequestDto dto) {
-        Schedule schedule = new Schedule(dto.getUserName(), dto.getTitle(), dto.getContents());
+        Schedule schedule = new Schedule(dto.getUserId(), dto.getTitle(), dto.getContents());
         Schedule savedSchedule = repository.save(schedule);
 
         return new ScheduleResponseDto(
                 savedSchedule.getId(),
-                savedSchedule.getUserName(),
                 savedSchedule.getTitle(),
                 savedSchedule.getContents(),
                 savedSchedule.getCreatedAt(),
-                savedSchedule.getUpdatedAt()
+                savedSchedule.getUpdatedAt(),
+                savedSchedule.getUserId()
         );
     }
 
@@ -45,11 +45,11 @@ public class ScheduleService {
         schedules.forEach(schedule -> responseDtos.add(
                 new ScheduleResponseDto(
                         schedule.getId(),
-                        schedule.getUserName(),
                         schedule.getTitle(),
                         schedule.getContents(),
                         schedule.getCreatedAt(),
-                        schedule.getUpdatedAt()
+                        schedule.getUpdatedAt(),
+                        schedule.getUserId()
                 )
         ));
         return responseDtos;
@@ -60,11 +60,11 @@ public class ScheduleService {
         Schedule schedule = repository.findById(id).orElseThrow();
         return new ScheduleResponseDto(
                 schedule.getId(),
-                schedule.getUserName(),
                 schedule.getTitle(),
                 schedule.getContents(),
                 schedule.getCreatedAt(),
-                schedule.getUpdatedAt()
+                schedule.getUpdatedAt(),
+                schedule.getUserId()
         );
     }
 
@@ -76,11 +76,11 @@ public class ScheduleService {
         repository.save(schedule);
         return new ScheduleResponseDto(
                 schedule.getId(),
-                schedule.getUserName(),
                 schedule.getTitle(),
                 schedule.getContents(),
                 schedule.getCreatedAt(),
-                schedule.getUpdatedAt()
+                schedule.getUpdatedAt(),
+                schedule.getUserId()
         );
     }
 

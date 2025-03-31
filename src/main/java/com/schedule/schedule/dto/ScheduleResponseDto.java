@@ -16,9 +16,9 @@ import java.sql.Timestamp;
 @Getter
 public class ScheduleResponseDto {
     private final long id;
-    private final String userName;
     private final String title;
     private final String contents;
     private final Timestamp createdAt;
     private final Timestamp updatedAt;
+    private final long userId;
 }

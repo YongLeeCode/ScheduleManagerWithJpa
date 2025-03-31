@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public class ScheduleRequestDto {
-    private final String userName;
+    private final long userId;
     private final String title;
     private final String contents;
 }

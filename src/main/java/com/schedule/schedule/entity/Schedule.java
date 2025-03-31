@@ -1,5 +1,6 @@
 package com.schedule.schedule.entity;
 
+import com.schedule.common.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -25,11 +26,13 @@ public class Schedule extends BaseEntity {
 
     private String contents;
 
+    private long userId;
+
     public Schedule() {
     }
 
-    public Schedule(String userName, String title, String contents) {
-        this.userName = userName;
+    public Schedule(long userId, String title, String contents) {
+        this.userId = userId;
         this.title = title;
         this.contents = contents;
     }
