@@ -56,4 +56,16 @@ public class UserService {
                 user.getUpdatedAt()
         );
     }
+
+    public UserResponseDto delete(long id) {
+        User user = repository.findById(id).orElseThrow();
+        repository.delete(user);
+        return new UserResponseDto(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getCreatedAt(),
+                user.getUpdatedAt()
+        );
+    }
 }
