@@ -1,12 +1,14 @@
 package com.schedule.schedule.controller;
 
 import com.schedule.schedule.dto.ScheduleRequestDto;
+import com.schedule.schedule.dto.ScheduleResponseDto;
 import com.schedule.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author : yong
@@ -21,8 +23,30 @@ import org.springframework.web.bind.annotation.RestController;
 public class ScheduleController {
 
     private final ScheduleService service;
+
     @PostMapping
-    public void create (@RequestBody ScheduleRequestDto dto) {
-        service.createSchedule(dto);
+    public ResponseEntity<ScheduleResponseDto> create(@RequestBody ScheduleRequestDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createSchedule(dto));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ScheduleResponseDto>> findAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ScheduleResponseDto> findById(@PathVariable long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ScheduleResponseDto> update(@PathVariable long id, @RequestBody ScheduleRequestDto dto) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.updateById(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable long id) {
+        String response = service.deleteById(id) + " 스케쥴은 정상적으로 삭제되었습니다.";
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

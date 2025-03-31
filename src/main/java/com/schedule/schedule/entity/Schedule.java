@@ -5,8 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Getter;
 
-import java.sql.Timestamp;
-
 /**
  * @author : yong
  * @packageName : com.schedule.schedule.entity
@@ -32,6 +30,11 @@ public class Schedule extends BaseEntity {
 
     public Schedule(String userName, String title, String contents) {
         this.userName = userName;
+        this.title = title;
+        this.contents = contents;
+    }
+
+    public void update(String title, String contents) {
         this.title = title;
         this.contents = contents;
     }
