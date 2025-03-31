@@ -2,6 +2,7 @@ package com.schedule.user.controller;
 
 import com.schedule.user.dto.CreateUserRequestDto;
 import com.schedule.user.dto.CreateUserResponseDto;
+import com.schedule.user.dto.UpdateUserRequestDto;
 import com.schedule.user.dto.UserResponseDto;
 import com.schedule.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,10 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> findById(@PathVariable long id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponseDto> update(@PathVariable long id, @RequestBody UpdateUserRequestDto dto) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.update(id, dto));
     }
 }

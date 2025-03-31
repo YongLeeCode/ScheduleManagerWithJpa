@@ -2,6 +2,7 @@ package com.schedule.user.service;
 
 import com.schedule.user.dto.CreateUserRequestDto;
 import com.schedule.user.dto.CreateUserResponseDto;
+import com.schedule.user.dto.UpdateUserRequestDto;
 import com.schedule.user.dto.UserResponseDto;
 import com.schedule.user.entity.User;
 import com.schedule.user.repository.UserRepository;
@@ -42,4 +43,17 @@ public class UserService {
         );
     }
 
+    public UserResponseDto update(long id, UpdateUserRequestDto dto) {
+        User user = repository.findById(id).orElseThrow();
+        user.update(dto.getName());
+
+        repository.save(user);
+        return new UserResponseDto(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getCreatedAt(),
+                user.getUpdatedAt()
+        );
+    }
 }
