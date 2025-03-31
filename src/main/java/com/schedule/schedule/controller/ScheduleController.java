@@ -34,9 +34,13 @@ public class ScheduleController {
         return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
     }
 
-    @PutMapping
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> findById(@PathVariable long id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(@PathVariable long id, @RequestBody ScheduleRequestDto dto) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.updateById(id, dto));
     }
 }

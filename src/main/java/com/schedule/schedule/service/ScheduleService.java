@@ -67,4 +67,20 @@ public class ScheduleService {
                 schedule.getUpdatedAt()
         );
     }
+
+    // 스케쥴 업데이트
+    public ScheduleResponseDto updateById(long id, ScheduleRequestDto dto) {
+        Schedule schedule = repository.findById(id).orElseThrow();
+        schedule.update(dto.getTitle(), dto.getContents());
+
+        repository.save(schedule);
+        return new ScheduleResponseDto(
+                schedule.getId(),
+                schedule.getUserName(),
+                schedule.getTitle(),
+                schedule.getContents(),
+                schedule.getCreatedAt(),
+                schedule.getUpdatedAt()
+        );
+    }
 }
