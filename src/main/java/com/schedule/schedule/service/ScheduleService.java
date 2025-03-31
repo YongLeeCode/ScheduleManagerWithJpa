@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author : yong
@@ -20,11 +21,12 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
-    private final ScheduleRepository scheduleRepository;
+    private final ScheduleRepository repository;
 
+    // 스케쥴 생성
     public ScheduleResponseDto createSchedule(ScheduleRequestDto dto) {
         Schedule schedule = new Schedule(dto.getUserName(), dto.getTitle(), dto.getContents());
-        Schedule savedSchedule = scheduleRepository.save(schedule);
+        Schedule savedSchedule = repository.save(schedule);
 
         return new ScheduleResponseDto(
                 savedSchedule.getId(),
@@ -36,8 +38,9 @@ public class ScheduleService {
         );
     }
 
+    // 스케쥴 전체 조회
     public List<ScheduleResponseDto> findAll() {
-        List<Schedule> schedules = scheduleRepository.findAll();
+        List<Schedule> schedules = repository.findAll();
         List<ScheduleResponseDto> responseDtos = new ArrayList<>();
         schedules.forEach(schedule -> responseDtos.add(
                 new ScheduleResponseDto(
@@ -50,5 +53,18 @@ public class ScheduleService {
                 )
         ));
         return responseDtos;
+    }
+
+    // 스케쥴 id로 조회
+    public ScheduleResponseDto findById(long id) {
+        Schedule schedule = repository.findById(id).orElseThrow();
+        return new ScheduleResponseDto(
+                schedule.getId(),
+                schedule.getUserName(),
+                schedule.getTitle(),
+                schedule.getContents(),
+                schedule.getCreatedAt(),
+                schedule.getUpdatedAt()
+        );
     }
 }
