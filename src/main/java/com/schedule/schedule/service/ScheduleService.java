@@ -1,6 +1,7 @@
 package com.schedule.schedule.service;
 
 import com.schedule.schedule.dto.ScheduleRequestDto;
+import com.schedule.schedule.dto.ScheduleResponseDto;
 import com.schedule.schedule.entity.Schedule;
 import com.schedule.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +18,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
-    public void createSchedule(ScheduleRequestDto dto) {
+    public ScheduleResponseDto createSchedule(ScheduleRequestDto dto) {
         Schedule schedule = new Schedule(dto.getUserName(), dto.getTitle(), dto.getContents());
-        Schedule schedule2 = scheduleRepository.save(schedule);
-        System.out.println(schedule2);
-        System.out.println(schedule2);
+        Schedule savedSchedule = scheduleRepository.save(schedule);
+
+        return new ScheduleResponseDto(
+                savedSchedule.getId(),
+                savedSchedule.getUserName(),
+                savedSchedule.getTitle(),
+                savedSchedule.getContents(),
+                savedSchedule.getCreatedAt(),
+                savedSchedule.getUpdatedAt()
+        );
     }
 }
