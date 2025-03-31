@@ -1,0 +1,30 @@
+package com.schedule.user.controller;
+
+import com.schedule.user.dto.CreateUserRequestDto;
+import com.schedule.user.dto.CreateUserResponseDto;
+import com.schedule.user.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+
+/**
+ * @author : yong
+ * @packageName : com.schedule.user.controller
+ * @fileName : UserController
+ * @date : 3/31/25
+ * @description :
+ */
+@RestController
+@RequestMapping("/user")
+@RequiredArgsConstructor
+public class UserController {
+    private final UserService service;
+
+    @PostMapping
+    public ResponseEntity<CreateUserResponseDto> create(@RequestBody CreateUserRequestDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createUser(dto));
+    }
+
+}
