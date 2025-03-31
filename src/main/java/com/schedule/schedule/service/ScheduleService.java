@@ -4,6 +4,8 @@ import com.schedule.schedule.dto.ScheduleRequestDto;
 import com.schedule.schedule.dto.ScheduleResponseDto;
 import com.schedule.schedule.entity.Schedule;
 import com.schedule.schedule.repository.ScheduleRepository;
+import com.schedule.user.entity.User;
+import com.schedule.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +23,14 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
-    private final ScheduleRepository repository;
+    private final ScheduleRepository scheduleRepository;
+    private final UserRepository userRepository;
 
     // 스케쥴 생성
     public ScheduleResponseDto createSchedule(ScheduleRequestDto dto) {
-        Schedule schedule = new Schedule(dto.getUserId(), dto.getTitle(), dto.getContents());
-        Schedule savedSchedule = repository.save(schedule);
+        User user = userRepository.findById(dto.getUserId()).orElseThrow();
+        Schedule schedule = new Schedule(user, dto.getTitle(), dto.getContents());
+        Schedule savedSchedule = scheduleRepository.save(schedule);
 
         return new ScheduleResponseDto(
                 savedSchedule.getId(),
@@ -34,13 +38,13 @@ public class ScheduleService {
                 savedSchedule.getContents(),
                 savedSchedule.getCreatedAt(),
                 savedSchedule.getUpdatedAt(),
-                savedSchedule.getUserId()
+                savedSchedule.getUser().getId()
         );
     }
 
     // 스케쥴 전체 조회
     public List<ScheduleResponseDto> findAll() {
-        List<Schedule> schedules = repository.findAll();
+        List<Schedule> schedules = scheduleRepository.findAll();
         List<ScheduleResponseDto> responseDtos = new ArrayList<>();
         schedules.forEach(schedule -> responseDtos.add(
                 new ScheduleResponseDto(
@@ -49,7 +53,7 @@ public class ScheduleService {
                         schedule.getContents(),
                         schedule.getCreatedAt(),
                         schedule.getUpdatedAt(),
-                        schedule.getUserId()
+                        schedule.getUser().getId()
                 )
         ));
         return responseDtos;
@@ -57,36 +61,36 @@ public class ScheduleService {
 
     // 스케쥴 id로 조회
     public ScheduleResponseDto findById(long id) {
-        Schedule schedule = repository.findById(id).orElseThrow();
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow();
         return new ScheduleResponseDto(
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContents(),
                 schedule.getCreatedAt(),
                 schedule.getUpdatedAt(),
-                schedule.getUserId()
+                schedule.getUser().getId()
         );
     }
 
     // 스케쥴 업데이트
     public ScheduleResponseDto updateById(long id, ScheduleRequestDto dto) {
-        Schedule schedule = repository.findById(id).orElseThrow();
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow();
         schedule.update(dto.getTitle(), dto.getContents());
 
-        repository.save(schedule);
+        scheduleRepository.save(schedule);
         return new ScheduleResponseDto(
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getContents(),
                 schedule.getCreatedAt(),
                 schedule.getUpdatedAt(),
-                schedule.getUserId()
+                schedule.getUser().getId()
         );
     }
 
     public String deleteById(long id) {
-        Schedule schedule = repository.findById(id).orElseThrow();
-        repository.deleteById(id);
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow();
+        scheduleRepository.deleteById(id);
 
         return schedule.getTitle();
     }
