@@ -18,17 +18,14 @@ JDBC를 사용하여 간단한 [일정관리 프로그램](https://velog.io/@yon
 - 인증/인가 절차는 `Cookie/Session`을 활용하여 개발한다.
 - JPA 연관관계는 특별한 상황이 아니면`단방향`으로 한다.
 
-
-***
-## Github & Blog
-[GitHub lv.0](https://github.com/YongLeeCode/ScheduleManagerWithJpa/tree/lv.0)  | [블로그 Lv.0  : API 명세서 및 ERD](https://velog.io/@yong-lee/JPA-%EC%9D%BC%EC%A0%95-%EA%B4%80%EB%A6%AC-API-%EB%A7%8C%EB%93%A4%EA%B8%B0-Lv-0)
-
 ***
 # What I do at each level...
 ## Lv.0
 - [ ]  Readme.md 파일을 작성
 - [ ]  ERD 작성
 - [ ]  API 명세서 작성
+- [ ]  [GitHub lv.0 코드 보러 가기](https://github.com/YongLeeCode/ScheduleManagerWithJpa/tree/lv.0)  
+- [ ]  [블로그 Lv.0 : API 명세서 및 ERD](https://velog.io/@yong-lee/JPA-%EC%9D%BC%EC%A0%95-%EA%B4%80%EB%A6%AC-API-%EB%A7%8C%EB%93%A4%EA%B8%B0-Lv-0)
 
 ## Lv.1
 - [ ]  일정(Schedule) 테이블의 생성, 조회, 수정, 삭제 구현.
