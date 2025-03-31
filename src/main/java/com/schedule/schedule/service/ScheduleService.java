@@ -7,6 +7,9 @@ import com.schedule.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author : yong
  * @packageName : com.schedule.schedule.service
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
+
     public ScheduleResponseDto createSchedule(ScheduleRequestDto dto) {
         Schedule schedule = new Schedule(dto.getUserName(), dto.getTitle(), dto.getContents());
         Schedule savedSchedule = scheduleRepository.save(schedule);
@@ -30,5 +34,21 @@ public class ScheduleService {
                 savedSchedule.getCreatedAt(),
                 savedSchedule.getUpdatedAt()
         );
+    }
+
+    public List<ScheduleResponseDto> findAll() {
+        List<Schedule> schedules = scheduleRepository.findAll();
+        List<ScheduleResponseDto> responseDtos = new ArrayList<>();
+        schedules.forEach(schedule -> responseDtos.add(
+                new ScheduleResponseDto(
+                        schedule.getId(),
+                        schedule.getUserName(),
+                        schedule.getTitle(),
+                        schedule.getContents(),
+                        schedule.getCreatedAt(),
+                        schedule.getUpdatedAt()
+                )
+        ));
+        return responseDtos;
     }
 }

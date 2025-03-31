@@ -6,10 +6,9 @@ import com.schedule.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author : yong
@@ -28,5 +27,10 @@ public class ScheduleController {
     @PostMapping
     public ResponseEntity<ScheduleResponseDto> create(@RequestBody ScheduleRequestDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createSchedule(dto));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ScheduleResponseDto>> findAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
     }
 }
