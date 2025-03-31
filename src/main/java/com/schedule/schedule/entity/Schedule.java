@@ -1,8 +1,8 @@
 package com.schedule.schedule.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.schedule.common.BaseEntity;
+import com.schedule.user.entity.User;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 /**
@@ -19,17 +19,19 @@ public class Schedule extends BaseEntity {
     @GeneratedValue
     private Long id;
 
-    private String userName;
-
     private String title;
 
     private String contents;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     public Schedule() {
     }
 
-    public Schedule(String userName, String title, String contents) {
-        this.userName = userName;
+    public Schedule(User user, String title, String contents) {
+        this.user = user;
         this.title = title;
         this.contents = contents;
     }

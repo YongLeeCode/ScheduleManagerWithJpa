@@ -1,4 +1,4 @@
-package com.schedule.schedule.dto;
+package com.schedule.user.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,18 +7,17 @@ import java.sql.Timestamp;
 
 /**
  * @author : yong
- * @packageName : com.schedule.schedule.dto
- * @fileName : ScheduleResponseDto
+ * @packageName : com.schedule.user.dto
+ * @fileName : UserRespnseDto
  * @date : 3/31/25
  * @description :
  */
 @RequiredArgsConstructor
 @Getter
-public class ScheduleResponseDto {
+public class UserResponseDto {
     private final long id;
-    private final String title;
-    private final String contents;
+    private final String name;
+    private final String email;
     private final Timestamp createdAt;
     private final Timestamp updatedAt;
-    private final long userId;
 }
