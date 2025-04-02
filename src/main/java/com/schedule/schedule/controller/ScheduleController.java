@@ -1,8 +1,11 @@
 package com.schedule.schedule.controller;
 
+import com.schedule.schedule.dto.CreateScheduleRequestDto;
 import com.schedule.schedule.dto.ScheduleRequestDto;
 import com.schedule.schedule.dto.ScheduleResponseDto;
 import com.schedule.schedule.service.ScheduleService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +21,16 @@ import java.util.List;
  * @description :
  */
 @RestController
-@RequestMapping("/schedule")
+@RequestMapping("/schedules")
 @RequiredArgsConstructor
 public class ScheduleController {
 
     private final ScheduleService service;
 
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> create(@RequestBody ScheduleRequestDto dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createSchedule(dto));
+    public ResponseEntity<ScheduleResponseDto> create(@RequestBody CreateScheduleRequestDto dto, HttpServletRequest req) {
+        long userId = Long.parseLong((String) req.getAttribute("userId"));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createSchedule(dto, userId));
     }
 
     @GetMapping
@@ -35,18 +39,21 @@ public class ScheduleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> findById(@PathVariable long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
+    public ResponseEntity<ScheduleResponseDto> findById(@PathVariable long id, HttpServletRequest req) {
+        long userId = Long.parseLong((String) req.getAttribute("userId"));
+        return ResponseEntity.status(HttpStatus.OK).body(service.findById(id, userId));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> update(@PathVariable long id, @RequestBody ScheduleRequestDto dto) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.updateById(id, dto));
+    public ResponseEntity<ScheduleResponseDto> update(@PathVariable long id, @RequestBody ScheduleRequestDto dto, HttpServletRequest req) {
+        long userId = Long.parseLong((String) req.getAttribute("userId"));
+        return ResponseEntity.status(HttpStatus.OK).body(service.updateById(id, dto, userId));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable long id) {
-        String response = service.deleteById(id) + " 스케쥴은 정상적으로 삭제되었습니다.";
+    public ResponseEntity<String> delete(@PathVariable long id, HttpServletRequest req) {
+        long userId = Long.parseLong((String) req.getAttribute("userId"));
+        String response = service.deleteById(id, userId) + " 스케쥴은 정상적으로 삭제되었습니다.";
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

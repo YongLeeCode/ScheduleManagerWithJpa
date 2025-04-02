@@ -1,9 +1,6 @@
 package com.schedule.user.service;
 
-import com.schedule.user.dto.CreateUserRequestDto;
-import com.schedule.user.dto.CreateUserResponseDto;
-import com.schedule.user.dto.UpdateUserRequestDto;
-import com.schedule.user.dto.UserResponseDto;
+import com.schedule.user.dto.*;
 import com.schedule.user.entity.User;
 import com.schedule.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +17,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository repository;
+
+    public UserResponseDto login(LoginRequestDto dto) {
+        User user = repository.findByEmail(dto.getEmail()).orElseThrow();
+        if(user.getPassword().equals(dto.getPassword())) {
+            return new UserResponseDto(user.getId(), user.getName(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt());
+        }
+        return null;
+    }
 
     public CreateUserResponseDto createUser(CreateUserRequestDto dto) {
         User user = repository.save(new User(dto.getName(), dto.getEmail(), dto.getPassword()));

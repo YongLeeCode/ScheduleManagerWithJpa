@@ -4,6 +4,7 @@ import com.schedule.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author : yong
@@ -13,5 +14,6 @@ import java.util.List;
  * @description :
  */
 public interface UserRepository extends JpaRepository<User, Long> {
-    List<User> findByPassword(String password);
+    Optional<User> findByEmail(String email);
+    Optional<User> findByName(String name);
 }
