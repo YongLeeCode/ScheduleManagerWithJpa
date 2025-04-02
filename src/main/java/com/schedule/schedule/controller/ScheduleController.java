@@ -1,11 +1,11 @@
 package com.schedule.schedule.controller;
 
 import com.schedule.schedule.dto.CreateScheduleRequestDto;
-import com.schedule.schedule.dto.ScheduleRequestDto;
+import com.schedule.schedule.dto.UpdateScheduleRequestDto;
 import com.schedule.schedule.dto.ScheduleResponseDto;
 import com.schedule.schedule.service.ScheduleService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,14 +28,15 @@ public class ScheduleController {
     private final ScheduleService service;
 
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> create(@RequestBody CreateScheduleRequestDto dto, HttpServletRequest req) {
+    public ResponseEntity<ScheduleResponseDto> create(@Valid @RequestBody CreateScheduleRequestDto dto, HttpServletRequest req) {
         long userId = Long.parseLong((String) req.getAttribute("userId"));
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createSchedule(dto, userId));
     }
 
     @GetMapping
-    public ResponseEntity<List<ScheduleResponseDto>> findAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
+    public ResponseEntity<List<ScheduleResponseDto>> findAll(HttpServletRequest req) {
+        long userId = Long.parseLong((String) req.getAttribute("userId"));
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAll(userId));
     }
 
     @GetMapping("/{id}")
@@ -45,7 +46,7 @@ public class ScheduleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> update(@PathVariable long id, @RequestBody ScheduleRequestDto dto, HttpServletRequest req) {
+    public ResponseEntity<ScheduleResponseDto> update(@PathVariable long id, @Valid @RequestBody UpdateScheduleRequestDto dto, HttpServletRequest req) {
         long userId = Long.parseLong((String) req.getAttribute("userId"));
         return ResponseEntity.status(HttpStatus.OK).body(service.updateById(id, dto, userId));
     }
