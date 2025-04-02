@@ -1,5 +1,6 @@
 package com.schedule.user.service;
 
+import com.schedule.config.PasswordEncoder;
 import com.schedule.handler.DuplicateEmailException;
 import com.schedule.handler.InvalidPasswordException;
 import com.schedule.user.dto.*;
@@ -20,11 +21,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
     public UserResponseDto login(LoginRequestDto dto) {
         User user = repository.findByEmail(dto.getEmail()).orElseThrow();
-
-        if (user.getPassword().equals(dto.getPassword())) {
+        if (passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
             return new UserResponseDto(user.getId(), user.getName(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt());
         } else {
             throw new InvalidPasswordException("비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
@@ -33,9 +34,9 @@ public class UserService {
 
     @Transactional
     public CreateUserResponseDto createUser(CreateUserRequestDto dto) {
-
+        String encodedPassword = passwordEncoder.Encoder(dto.getPassword());
         if (!repository.existsByEmail(dto.getEmail())) {
-            User user = repository.save(new User(dto.getName(), dto.getEmail(), dto.getPassword()));
+            User user = repository.save(new User(dto.getName(), dto.getEmail(), encodedPassword));
             return new CreateUserResponseDto(
                     user.getId(),
                     user.getName(),
