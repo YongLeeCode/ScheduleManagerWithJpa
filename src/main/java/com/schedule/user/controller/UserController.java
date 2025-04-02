@@ -27,8 +27,9 @@ public class UserController {
     public ResponseEntity<String> login(@RequestBody LoginRequestDto dto, HttpServletResponse response) {
         UserResponseDto result = service.login(dto);
         if(result != null) {
-            Cookie cookie = new Cookie("COOKIE", result.getName());
+            Cookie cookie = new Cookie("COOKIE", String.valueOf(result.getId()));
             cookie.setMaxAge(60 * 60);
+            cookie.setPath("/");
             response.addCookie(cookie);
             return ResponseEntity.status(HttpStatus.OK).body("로그인 성공! 토큰 발급되었습니다.");
         }
