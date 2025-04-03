@@ -1,5 +1,6 @@
 package com.schedule.reply.service;
 
+import com.schedule.handler.AccessDeniedException;
 import com.schedule.reply.dto.CreateReplyRequestDto;
 import com.schedule.reply.dto.FindReplyResponseDto;
 import com.schedule.reply.dto.ReplyResponseDto;
@@ -60,5 +61,24 @@ public class ReplyService {
                 )
         ));
         return responseDtos;
+    }
+
+    public ReplyResponseDto updateReply(CreateReplyRequestDto dto, long replyId, long userId) {
+        Reply reply = replyRepository.findById(replyId).orElseThrow();
+        if(reply.getId() != userId) {
+            throw new AccessDeniedException("유저님은 이 댓글을 수정하실 수 없습니다.");
+        }
+
+        reply.updateReply(dto.getContents());
+        Reply savedReply = replyRepository.save(reply);
+
+        return new ReplyResponseDto(
+                savedReply.getId(),
+                savedReply.getContents(),
+                savedReply.getCreatedAt(),
+                savedReply.getUpdatedAt(),
+                savedReply.getUser().getId(),
+                savedReply.getSchedule().getId()
+        );
     }
 }

@@ -38,4 +38,8 @@ public class Reply extends BaseEntity {
         this.user = user;
         this.schedule = schedule;
     }
+
+    public void updateReply(String contents) {
+        this.contents = contents;
+    }
 }

@@ -33,4 +33,9 @@ public class ReplyController {
     public ResponseEntity<List<FindReplyResponseDto>> findAllBySchedule(@PathVariable long scheduleId) {
         return ResponseEntity.status(HttpStatus.OK).body(service.findAllBySchedule(scheduleId));
     }
+
+    @PutMapping("/{replyId}/{scheduleId}")
+    public ResponseEntity<ReplyResponseDto> updateReply(@RequestBody CreateReplyRequestDto dto, @PathVariable long replyId, @PathVariable long scheduleId) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.updateReply(dto, scheduleId, replyId));
+    }
 }
