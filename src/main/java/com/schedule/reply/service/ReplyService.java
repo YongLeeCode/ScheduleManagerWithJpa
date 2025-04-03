@@ -81,4 +81,17 @@ public class ReplyService {
                 savedReply.getSchedule().getId()
         );
     }
+
+    public String deleteReply(long userId, long replyId) {
+        Reply reply = replyRepository.findById(replyId)
+                .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
+
+        if (reply.getUser().getId() != userId) {
+            throw new IllegalStateException("댓글을 삭제할 권한이 없습니다.");
+        }
+
+        replyRepository.deleteById(replyId);
+
+        return "댓글이 삭제되었습니다.";
+    }
 }
