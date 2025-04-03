@@ -11,6 +11,9 @@ import com.schedule.schedule.repository.ScheduleRepository;
 import com.schedule.user.entity.User;
 import com.schedule.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -49,8 +52,12 @@ public class ReplyService {
     }
 
     public List<FindReplyResponseDto> findAllBySchedule(long scheduleId) {
-        List<Reply> replies = scheduleRepository.findAllReplyWithSchedule(scheduleId);
+        int pageNumber = 1;
+        int pageSize = 3;
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.DESC,"updatedAt"));
+        Page<Reply> replies = replyRepository.findAllReplyWithSchedule(scheduleId, pageRequest);
         List<FindReplyResponseDto> responseDtos = new ArrayList<>();
+
         replies.forEach(reply -> responseDtos.add(
                 new FindReplyResponseDto(
                     reply.getId(),
