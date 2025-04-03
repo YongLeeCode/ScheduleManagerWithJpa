@@ -1,10 +1,17 @@
 package com.schedule.reply.dto;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 /**
- * @packageName    : com.schedule.reply.dto
- * @fileName       : CreateReplyRequestDto
- * @author         : yong
- * @date           : 4/2/25
- * @description    :
- */public class CreateReplyRequestDto {
+ * @author : yong
+ * @packageName : com.schedule.reply.dto
+ * @fileName : CreateReplyRequestDto
+ * @date : 4/2/25
+ * @description :
+ */
+@RequiredArgsConstructor
+@Getter
+public class CreateReplyRequestDto {
+    private final String contents;
 }
