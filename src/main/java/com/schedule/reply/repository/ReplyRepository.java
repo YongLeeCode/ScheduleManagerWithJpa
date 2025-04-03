@@ -1,8 +1,13 @@
 package com.schedule.reply.repository;
 
 import com.schedule.reply.entity.Reply;
+import com.schedule.schedule.entity.Schedule;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author : yong
@@ -13,4 +18,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
+
 }

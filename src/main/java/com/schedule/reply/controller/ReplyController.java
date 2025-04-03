@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author : yong
  * @packageName : com.schedule.reply.controller
@@ -24,5 +26,11 @@ public class ReplyController {
     @PostMapping("/{userId}/{scheduleId}")
     public ResponseEntity<ReplyResponseDto> addReply(@RequestBody CreateReplyRequestDto dto, @PathVariable long userId, @PathVariable long scheduleId) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.addReply(dto, scheduleId, userId));
+    }
+
+    @GetMapping("/{scheduleId}")
+    public void findAllBySchedule(@PathVariable long scheduleId) {
+        service.findAllBySchedule(scheduleId);
+//        return ResponseEntity.status(HttpStatus.OK).body();
     }
 }

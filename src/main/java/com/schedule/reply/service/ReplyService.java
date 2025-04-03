@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @author : yong
@@ -41,5 +42,12 @@ public class ReplyService {
                 savedReply.getUser().getId(),
                 savedReply.getSchedule().getId()
         );
+    }
+
+    public void findAllBySchedule(long scheduleId) {
+//        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow();
+        List<Reply> replies = scheduleRepository.findAllReplyWithSchedule(scheduleId);
+        System.out.println(replies);
+        System.out.println("test");
     }
 }
