@@ -1,6 +1,7 @@
 package com.schedule.reply.controller;
 
 import com.schedule.reply.dto.CreateReplyRequestDto;
+import com.schedule.reply.dto.FindReplyResponseDto;
 import com.schedule.reply.dto.ReplyResponseDto;
 import com.schedule.reply.service.ReplyService;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +30,7 @@ public class ReplyController {
     }
 
     @GetMapping("/{scheduleId}")
-    public void findAllBySchedule(@PathVariable long scheduleId) {
-        service.findAllBySchedule(scheduleId);
-//        return ResponseEntity.status(HttpStatus.OK).body();
+    public ResponseEntity<List<FindReplyResponseDto>> findAllBySchedule(@PathVariable long scheduleId) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAllBySchedule(scheduleId));
     }
 }

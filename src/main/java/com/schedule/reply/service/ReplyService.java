@@ -1,6 +1,7 @@
 package com.schedule.reply.service;
 
 import com.schedule.reply.dto.CreateReplyRequestDto;
+import com.schedule.reply.dto.FindReplyResponseDto;
 import com.schedule.reply.dto.ReplyResponseDto;
 import com.schedule.reply.entity.Reply;
 import com.schedule.reply.repository.ReplyRepository;
@@ -12,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author : yong
@@ -44,10 +47,18 @@ public class ReplyService {
         );
     }
 
-    public void findAllBySchedule(long scheduleId) {
-//        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow();
+    public List<FindReplyResponseDto> findAllBySchedule(long scheduleId) {
         List<Reply> replies = scheduleRepository.findAllReplyWithSchedule(scheduleId);
-        System.out.println(replies);
-        System.out.println("test");
+        List<FindReplyResponseDto> responseDtos = new ArrayList<>();
+        replies.forEach(reply -> responseDtos.add(
+                new FindReplyResponseDto(
+                    reply.getId(),
+                    reply.getContents(),
+                    reply.getCreatedAt(),
+                    reply.getUpdatedAt(),
+                    reply.getUser().getName()
+                )
+        ));
+        return responseDtos;
     }
 }
