@@ -1,9 +1,12 @@
 package com.schedule.schedule.entity;
 
 import com.schedule.common.BaseEntity;
+import com.schedule.reply.entity.Reply;
 import com.schedule.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
+
+import java.util.List;
 
 /**
  * @author : yong
@@ -26,6 +29,10 @@ public class Schedule extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reply_id")
+    private List<Reply> replies;
 
     public Schedule() {
     }
