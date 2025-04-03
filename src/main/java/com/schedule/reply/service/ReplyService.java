@@ -63,7 +63,7 @@ public class ReplyService {
         return responseDtos;
     }
 
-    public ReplyResponseDto updateReply(CreateReplyRequestDto dto, long replyId, long userId) {
+    public ReplyResponseDto updateReply(CreateReplyRequestDto dto, long userId, long replyId) {
         Reply reply = replyRepository.findById(replyId).orElseThrow();
         if(reply.getId() != userId) {
             throw new AccessDeniedException("유저님은 이 댓글을 수정하실 수 없습니다.");
